@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import { Search, X, ChevronDown, ChevronUp, UserX, Clock } from 'lucide-react';
 import { Employee, EmployeeStatus } from '../types';
+import { motion, AnimatePresence } from 'motion/react';
 
 interface EmployeeTableProps {
   employees: Employee[];
@@ -113,14 +114,25 @@ export function EmployeeTable({ employees, onRowClick, onSetStatus, onDelete }: 
       </div>
 
       {/* Grid Body */}
-      <div className="flex flex-col flex-1 overflow-y-auto">
+      <div className="flex flex-col flex-1 overflow-y-auto overflow-x-hidden">
+        <AnimatePresence>
         {filteredAndSorted.length === 0 ? (
-           <div className="flex flex-col items-center justify-center p-12 text-ink/30 italic font-serif">
+           <motion.div 
+             initial={{ opacity: 0 }}
+             animate={{ opacity: 1 }}
+             exit={{ opacity: 0 }}
+             className="flex flex-col items-center justify-center p-12 text-ink/30 italic font-serif"
+           >
              No records synchronized.
-           </div>
+           </motion.div>
         ) : (
-          filteredAndSorted.map(emp => (
-            <div 
+          filteredAndSorted.map((emp, i) => (
+            <motion.div 
+              layout
+              initial={{ opacity: 0, x: -20 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: 20 }}
+              transition={{ duration: 0.2, delay: i * 0.05 > 0.5 ? 0 : i * 0.05 }}
               key={emp.id}
               className="grid grid-cols-[90px_1fr_110px_110px_90px_140px_40px] border-b border-ink hover:bg-ink group hover:text-white transition-colors cursor-pointer text-sm font-medium items-stretch bg-paper"
               onClick={() => onRowClick(emp.id)}
@@ -165,9 +177,10 @@ export function EmployeeTable({ employees, onRowClick, onSetStatus, onDelete }: 
                   <X size={16} strokeWidth={3} />
                 </button>
               </div>
-            </div>
+            </motion.div>
           ))
         )}
+        </AnimatePresence>
       </div>
       
     </div>

@@ -11,9 +11,10 @@ import { ActionLogModal } from './components/ActionLogModal';
 import { TrendsChartModal } from './components/TrendsChartModal';
 import { TaskDashboardModal } from './components/TaskDashboardModal';
 import { NotificationsPanel } from './components/NotificationsPanel';
+import { CommandCenterModal } from './components/CommandCenterModal';
 import { useTasks } from './hooks/useTasks';
 import { useNotifications } from './hooks/useNotifications';
-import { Users, Plus, Moon, Sun, Download, Upload, Activity, TrendingUp, LogOut, CheckSquare, Bell } from 'lucide-react';
+import { Users, Plus, Moon, Sun, Download, Upload, Activity, TrendingUp, LogOut, CheckSquare, Bell, Terminal } from 'lucide-react';
 
 export default function App() {
   const { employees, logs, setStatus, addEmployee, deleteEmployee, addLog } = useEmployees();
@@ -27,6 +28,7 @@ export default function App() {
   const [isTrendsOpen, setIsTrendsOpen] = useState(false);
   const [isTasksOpen, setIsTasksOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [isCommandCenterOpen, setIsCommandCenterOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
@@ -176,6 +178,9 @@ export default function App() {
             <button title="Operations Telemetry" onClick={() => setIsTrendsOpen(true)} className="flex items-center justify-center w-10 h-10 border-2 border-ink text-ink hover:bg-ink hover:text-white transition-colors">
               <TrendingUp size={18} strokeWidth={3} />
             </button>
+            <button title="Command Center Override" onClick={() => setIsCommandCenterOpen(true)} className="flex items-center justify-center w-10 h-10 border-2 border-ink text-white bg-ink hover:bg-active-state hover:text-ink transition-colors animate-pulse">
+              <Terminal size={18} strokeWidth={3} />
+            </button>
             <button onClick={() => setIsAddOpen(true)} className="flex items-center gap-2 bg-ink text-white px-4 h-10 font-bold uppercase tracking-widest text-sm hover:bg-white active:translate-y-1 transition-all border-2 border-transparent hover:border-ink hover:text-ink cursor-pointer ml-2">
               <Plus size={16} strokeWidth={3} />
               <span className="hidden sm:inline">Onboard</span>
@@ -239,6 +244,12 @@ export default function App() {
         onUpdateTask={updateTaskStatus}
         onDeleteTask={deleteTask}
         addLog={addLog}
+      />
+
+      <CommandCenterModal
+        isOpen={isCommandCenterOpen}
+        onClose={() => setIsCommandCenterOpen(false)}
+        employees={employees}
       />
     </div>
   );

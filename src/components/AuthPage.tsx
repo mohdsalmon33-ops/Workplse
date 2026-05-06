@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Fingerprint, Scan, ShieldAlert } from 'lucide-react';
+import { Fingerprint, Scan, ShieldAlert, FileText } from 'lucide-react';
+import { PrivacyPolicyModal } from './PrivacyPolicyModal';
 
 interface AuthPageProps {
   onLogin: () => void;
@@ -10,6 +11,7 @@ export function AuthPage({ onLogin }: AuthPageProps) {
   const [ident, setIdent] = useState('');
   const [pin, setPin] = useState('');
   const [error, setError] = useState('');
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -78,7 +80,7 @@ export function AuthPage({ onLogin }: AuthPageProps) {
           </button>
         </form>
 
-        <div className="text-center pt-4 border-t-2 border-ink/10">
+        <div className="text-center pt-4 border-t-2 border-ink/10 flex flex-col gap-4">
           <button 
             type="button"
             onClick={() => {
@@ -89,9 +91,22 @@ export function AuthPage({ onLogin }: AuthPageProps) {
           >
             {mode === 'login' ? 'Request New Identity' : 'Existing Identity Login'}
           </button>
+          
+          <button 
+            type="button"
+            onClick={() => setIsPrivacyOpen(true)}
+            className="text-[10px] uppercase font-bold tracking-widest text-ink/40 hover:text-ink transition-colors flex items-center justify-center gap-1 mx-auto"
+          >
+            <FileText size={12} /> Privacy Policy
+          </button>
         </div>
 
       </div>
+      
+      <PrivacyPolicyModal 
+        isOpen={isPrivacyOpen}
+        onClose={() => setIsPrivacyOpen(false)}
+      />
     </div>
   );
 }

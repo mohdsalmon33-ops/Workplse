@@ -12,9 +12,10 @@ import { TrendsChartModal } from './components/TrendsChartModal';
 import { TaskDashboardModal } from './components/TaskDashboardModal';
 import { NotificationsPanel } from './components/NotificationsPanel';
 import { CommandCenterModal } from './components/CommandCenterModal';
+import { PrivacyPolicyModal } from './components/PrivacyPolicyModal';
 import { useTasks } from './hooks/useTasks';
 import { useNotifications } from './hooks/useNotifications';
-import { Users, Plus, Moon, Sun, Download, Upload, Activity, TrendingUp, LogOut, CheckSquare, Bell, Terminal } from 'lucide-react';
+import { Users, Plus, Moon, Sun, Download, Upload, Activity, TrendingUp, LogOut, CheckSquare, Bell, Terminal, FileText } from 'lucide-react';
 
 export default function App() {
   const { employees, logs, setStatus, addEmployee, deleteEmployee, addLog } = useEmployees();
@@ -29,6 +30,7 @@ export default function App() {
   const [isTasksOpen, setIsTasksOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
   const [isCommandCenterOpen, setIsCommandCenterOpen] = useState(false);
+  const [isPrivacyOpen, setIsPrivacyOpen] = useState(false);
   const [isDark, setIsDark] = useState(false);
 
   useEffect(() => {
@@ -178,6 +180,9 @@ export default function App() {
             <button title="Operations Telemetry" onClick={() => setIsTrendsOpen(true)} className="flex items-center justify-center w-10 h-10 border-2 border-ink text-ink hover:bg-ink hover:text-white transition-colors">
               <TrendingUp size={18} strokeWidth={3} />
             </button>
+            <button title="Privacy Policy" onClick={() => setIsPrivacyOpen(true)} className="flex items-center justify-center w-10 h-10 border-2 border-ink text-ink hover:bg-ink hover:text-white transition-colors">
+              <FileText size={18} strokeWidth={3} />
+            </button>
             <button title="Command Center Override" onClick={() => setIsCommandCenterOpen(true)} className="flex items-center justify-center w-10 h-10 border-2 border-ink text-white bg-ink hover:bg-active-state hover:text-ink transition-colors animate-pulse">
               <Terminal size={18} strokeWidth={3} />
             </button>
@@ -250,6 +255,11 @@ export default function App() {
         isOpen={isCommandCenterOpen}
         onClose={() => setIsCommandCenterOpen(false)}
         employees={employees}
+      />
+
+      <PrivacyPolicyModal
+        isOpen={isPrivacyOpen}
+        onClose={() => setIsPrivacyOpen(false)}
       />
     </div>
   );
